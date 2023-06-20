@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://penobit.com">
-    <img src="https://avatars.githubusercontent.com/u/60283818?v=4" style="border-radius: 1rem;">
+    <img src="https://avatars.githubusercontent.com/u/60283818?v=4" style="border-radius: 1rem;" width="250">
   </a>
 </p>
 
