@@ -11,7 +11,7 @@ class QueryBuilder {
     /**
      * Type of the query.
      */
-    protected string $type;
+    protected string $type = 'select';
 
     /**
      * Name of the table involved in the query.
@@ -43,7 +43,7 @@ class QueryBuilder {
      *
      * @var array|string
      */
-    protected $select;
+    protected $select = '*';
 
     /**
      * Conditions of the query.
@@ -182,6 +182,7 @@ class QueryBuilder {
      */
     public function execute() {
         $statement = $this->prepare();
+        $this->bindParams($statement);
         $statement->execute();
 
         if ('select' == $this->type) {
@@ -209,10 +210,10 @@ class QueryBuilder {
      * @param PDOStatement $statement the statement to bind the parameters to
      */
     public function bindParams($statement) {
-        foreach ($this->conditions as $condition) {
+        foreach ($this->conditions ?? [] as $condition) {
             $statement->bindParam($condition['column'], $condition['value']);
         }
-        foreach ($this->data as $key => $value) {
+        foreach ($this->data ?? [] as $key => $value) {
             $statement->bindParam($key, $value);
         }
     }
@@ -430,7 +431,14 @@ class QueryBuilder {
      * @return string the SQL query
      */
     public function toSql() {
-        return sprintf('%s%s%s%s%s', $this->getQueryStart(), $this->buildUpdateQuery(), $this->buildInsertQuery(), $this->buildConditionsQuery(), $this->getQueryEnd());
+        return sprintf(
+            '%s%s%s%s%s',
+            $this->getQueryStart(),
+            $this->buildUpdateQuery(),
+            $this->buildInsertQuery(),
+            $this->buildConditionsQuery(),
+            $this->getQueryEnd()
+        );
     }
 
     /**
@@ -467,5 +475,9 @@ class QueryBuilder {
         $this->data = $data;
 
         return $this;
+    }
+
+    public function get() {
+        return $this->execute()->fetchAll(\PDO::FETCH_OBJ);
     }
 }
