@@ -74,3 +74,29 @@ function applyFilter($filter, ...$args) {
 function config($key, $default = null) {
     return app()->config->get($key, $default);
 }
+
+/**
+ * Dump the given value with HTML formatting.
+ *
+ * @param mixed ...$args The values to dump.
+ */
+function dd(...$args) {
+    foreach ($args as $value) {
+        echo '<pre>';
+        var_dump($value);
+        echo '</pre>';
+    }
+
+    exit;
+}
+
+/**
+ * Get the request object from the application.
+ *
+ * This function is a helper to get the request object from the application.
+ *
+ * @return Request the request object
+ */
+function request(): Request {
+    return app()->request;
+}
