@@ -2,8 +2,8 @@
 
 namespace Core\Routes;
 
+use App\Exceptions\PageNotFound;
 use App\Request;
-use Penobit\App\Exceptions\PageNotFound;
 
 class Router {
     /**

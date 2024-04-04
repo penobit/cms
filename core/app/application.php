@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Exceptions\Handler;
 use Core\Routes\Router;
 use Database\Connection;
 use Database\QueryBuilder;
@@ -154,6 +155,7 @@ class Application {
      * Execute the router run method to handle the request.
      */
     public function run() {
+        $this->registerExceptionHandler();
         $this->registerRoutes();
         $this->setTimezone();
         $this->setLocale();
@@ -222,5 +224,9 @@ class Application {
             // Print the database connection error message
             echo sprintf('Database connection error: ', $e->getMessage());
         }
+    }
+
+    public function registerExceptionHandler() {
+        set_exception_handler([Handler::class, 'handle']);
     }
 }

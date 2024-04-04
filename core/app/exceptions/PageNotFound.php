@@ -1,21 +1,31 @@
 <?php
 
-namespace Penobit\App\Exceptions;
+namespace App\Exceptions;
 
-use Penobit\App\Http\Response;
-
-class PageNotFound extends \Exception {
+class PageNotFound extends PenobitException {
     public function __construct(string $message = 'Page Not Found', int $code = 404, \Exception $previous = null) {
         parent::__construct($message, $code, $previous);
     }
 
+    public function getHtml() {
+        return sprintf('
+            <html>
+                <body>
+                    <h1>Page Not Found</h1>
+                    <p>The requested page was not found.</p>
+                    <footer>&copy; %s <a href="https://penobit.com">Penobit</a> </footer>
+                </body>
+            </html>
+        ', persianDate()->format('Y'));
+    }
+
     public function render() {
         // return a 404 Not Found page
-        $response = new Response();
-        $response->setStatusCode(404);
-        $response->header('Content-Type', 'text/html; charset=utf-8');
-        $response->write($response->getView()->render('errors/404'));
-
-        return $response;
+        return response()
+            ->setStatusCode(404)
+            ->header('Content-Type', 'text/html; charset=utf-8')
+            ->content($this->getHtml())
+            ->send()
+        ;
     }
 }
