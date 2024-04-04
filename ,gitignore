@@ -16,3 +16,18 @@
 # Composer
 /composer.phar
 
+# PHP CS Fixer
+.php_cs.cache
+.php_cs.php
+
+# Code Sniffer
+/phpcs.xml
+
+# PHPStan
+/phpstan.neon
+
+# PHPStan
+/phpstan-baseline.neon
+
+# VS Code
+.vscode
