@@ -2,6 +2,7 @@
 
 use App\Application;
 use App\Request;
+use App\Response;
 
 /**
  * Penobit CMS Helpers file.
@@ -100,3 +101,15 @@ function dd(...$args) {
 function request(): Request {
     return app()->request;
 }
+
+/**
+ * Get the response object from the application.
+ *
+ * This function is a helper to get the response object from the application.
+ *
+ * @return Response the response object
+ */
+function response(): Response {
+    return new Response();
+}
+
