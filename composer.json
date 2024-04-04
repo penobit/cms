@@ -1,0 +1,16 @@
+{
+  "require": {
+    "carbondate/carbon": "^1.33",
+    "penobit/persiandate": "^1.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Core\\": "core",
+      "App\\": "core/app",
+      "Database\\": "core/database"
+    },
+    "files": [
+      "core/helpers.php"
+    ]
+  }
+}
