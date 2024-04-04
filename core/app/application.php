@@ -3,6 +3,8 @@
 namespace App;
 
 use Core\Routes\Router;
+use Database\Connection;
+use Database\QueryBuilder;
 
 /**
  * The Application class represents the main entry point of the application.
@@ -178,5 +180,47 @@ class Application {
      */
     public function bind(string $key, mixed $value) {
         $this->serviceContainer->bind($key, $value);
+    }
+
+    /**
+     * Check if the application is installed.
+     *
+     * This function checks if the 'users' table exists in the database.
+     * If it doesn't exist and the current URI is not '/install',
+     * it redirects the user to the installation page.
+     */
+    public function checkInstallation() {
+        // Create a new query builder instance
+        $q = new QueryBuilder();
+
+        // Check if the 'users' table exists in the database
+        $exists = $q->table('users')->exists();
+
+        // If the table doesn't exist and the current URI is not '/install'
+        if (!$exists && request()->getUri() !== 'install') {
+            // Redirect the user to the installation page
+            header('Location: /install');
+        }
+    }
+
+    /**
+     * Check the database connection.
+     *
+     * This function tries to establish a database connection using the Connection class.
+     * If the connection fails, it prints an error message.
+     *
+     * @return $this the current Application instance
+     */
+    public function checkDatabaseConnection() {
+        try {
+            // Try to establish a database connection
+            Connection::getConnection();
+
+            // Return the current Application instance
+            return $this;
+        } catch (\PDOException $e) {
+            // Print the database connection error message
+            echo sprintf('Database connection error: ', $e->getMessage());
+        }
     }
 }

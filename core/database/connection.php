@@ -13,6 +13,11 @@ class Connection {
      */
     protected static $connection;
 
+    public function __construct()
+    {
+        static::connect();
+    }
+
     /**
      * Returns the PDO database connection instance.
      *

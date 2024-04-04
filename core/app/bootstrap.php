@@ -17,4 +17,7 @@ $app = new Application(
     serviceContainer: $serviceContainer,
 );
 
+// Check the database connection and if the application is installed
+// $app->checkDatabaseConnection()->checkInstallation();
+
 return $app;

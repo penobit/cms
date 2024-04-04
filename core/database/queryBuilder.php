@@ -477,17 +477,31 @@ class QueryBuilder {
         return $this;
     }
 
+    /**
+     * Checks if a table exists in the current database.
+     *
+     * @return bool true if the table exists, false otherwise
+     */
     public function exists() {
+        // The SQL query to check if a table exists
         $sql = 'SELECT 1 FROM information_schema.tables 
                 WHERE table_schema = DATABASE() AND table_name = ? LIMIT 1';
 
+        // Prepare and execute the query
         $stmt = Connection::getConnection()->prepare($sql);
         $stmt->execute([$this->table]);
 
+        // Return whether a row was fetched or not
         return $stmt->fetch() !== false;
     }
 
+    /**
+     * Executes the query and returns the result as an array of objects.
+     *
+     * @return array the result of the query
+     */
     public function get() {
+        // Execute the query and fetch all rows
         return $this->execute()->fetchAll(\PDO::FETCH_OBJ);
     }
 }
