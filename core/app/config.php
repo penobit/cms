@@ -27,7 +27,7 @@ class Config {
             $segments = explode('.', $key);
             // Build the configuration file path.
             $file = $segments[0];
-            $path = HOME."/core/configs/{$file}.php";
+            $path = HOME."/configs/{$file}.php";
             // Retrieve the configuration value.
             self::$configs[$key] = static::retrieveConfig($path, $segments);
         }

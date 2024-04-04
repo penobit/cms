@@ -8,6 +8,7 @@
     # Redirect all access to files in core and vendor directory to 404 page
     RewriteRule ^core/.*$ - [L,R=404]
     RewriteRule ^vendor/.*$ - [L,R=404]
+    RewriteRule ^configs/.*$ - [L,R=404]
     
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
