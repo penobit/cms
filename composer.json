@@ -1,7 +1,7 @@
 {
   "require": {
-    "carbondate/carbon": "^1.33",
-    "penobit/persiandate": "^1.2"
+    "penobit/persiandate": "^1.2",
+    "nesbot/carbon": "^2.72"
   },
   "autoload": {
     "psr-4": {
