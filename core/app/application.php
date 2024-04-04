@@ -162,11 +162,12 @@ class Application {
      * Resolve a given function/class with it's typed parameters.
      *
      * @param mixed $name the name of the function/class to resolve
+     * @param mixed ...$args the list of arguments to pass to the function/class
      *
      * @return mixed the resolved instance of the function/class
      */
-    public function resolve(mixed $name) {
-        return $this->serviceContainer->resolve($name);
+    public function resolve(mixed $name, mixed $args) {
+        return $this->serviceContainer->resolve($name, $args);
     }
 
     /**

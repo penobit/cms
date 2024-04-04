@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Entities\Entity;
 use Database\QueryBuilder;
 
 /**
@@ -26,7 +27,7 @@ class ServiceContainer {
      *
      * @throws ReflectionException if the class does not exist or if there is a reflection error
      */
-    public function resolveClass(mixed $class): object {
+    public function resolveClass(mixed $class, mixed $args = []): object {
         // If the name is bound, return the bound value
         if (isset($this->bindings[$class])) {
             return $this->bindings[$class];
@@ -60,7 +61,7 @@ class ServiceContainer {
      *
      * @throws InvalidArgumentException if the function is not callable
      */
-    public function resolveFunction(mixed $function) {
+    public function resolveFunction(mixed $function, mixed $args = []) {
         // If the name is bound, return the bound value
         if (isset($this->bindings[$function])) {
             return $this->bindings[$function];
@@ -83,9 +84,25 @@ class ServiceContainer {
         // Resolve the parameters and bind them to the function
         $newInstanceParams = [];
         foreach ($params as $param) {
-            $newInstanceParams[] = $param->getClass() === null ? $param->getDefaultValue() : $this->resolve(
-                $param->getClass()->getName()
-            );
+            if ($param->getClass() === null) {
+                if (count($args) > 0 && isset($args[$param->name])) {
+                    $value = $args[$param->name];
+                } else {
+                    $value = $param->getDefaultValue() ?? null;
+                }
+
+                $newInstanceParams[] = $value;
+            } else {
+                // check if class is Entity or it inherits Entity
+                $class = $param->getClass()->getName();
+                if (class_exists($class) && is_subclass_of($class, self::class)) {
+                    dd($class);
+                }
+
+                $newInstanceParams[] = $this->resolve(
+                    $param->getClass()->getName()
+                );
+            }
         }
 
         // Bind the parameters to the function and return it
@@ -95,14 +112,14 @@ class ServiceContainer {
     /**
      * Resolve the given class/function and it's typed parameters.
      */
-    public function resolve(mixed $name) {
+    public function resolve(mixed $name, mixed $args = []) {
         // If the name is a string, resolve it as a class
         if (is_string($name)) {
-            return $this->resolveClass($name);
+            return $this->resolveClass($name, $args);
         }
 
         // Resolve it as a function
-        return $this->resolveFunction($name);
+        return $this->resolveFunction($name, $args);
     }
 
     /**

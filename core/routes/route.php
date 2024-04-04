@@ -107,14 +107,14 @@ class Route {
             return false;
         }
 
-        preg_match_all('/\{([a-zA-Z0-9_:]+)\??\}/', $this->path, $matchedVariables);
+        preg_match_all('/\{([a-zA-Z0-9_:]+)\??\}/', $this->getPath(), $matchedVariables);
 
         if (empty($matchedVariables[0])) {
-            return trim($this->path, '/') === trim($path, '/');
+            return trim($this->getPath(), '/') === trim($path, '/');
         }
 
         $pathParts = explode('/', trim($path, '/'));
-        $routeParts = explode('/', trim($this->path, '/'));
+        $routeParts = explode('/', trim($this->getPath(), '/'));
 
         if (count($pathParts) !== count($routeParts)) {
             return false;
@@ -134,14 +134,67 @@ class Route {
     }
 
     /**
+     * Get the path of the route.
+     *
+     * @return string the path of the route
+     */
+    public function getPath(): string {
+        return $this->path;
+    }
+
+    /**
      * Run the route callback with given parameters.
      */
     public function run(): mixed {
-        $params = [];
+        $params = $this->resolveVariables();
         $callback = $this->callback;
-        $callback = app()->resolve($callback);
+        $callback = app()->resolve($callback, $params);
 
-        return call_user_func($callback, ...$params);
+        return call_user_func($callback);
+    }
+
+    /**
+     * Returns an array of variable names from the route's path.
+     *
+     * This method searches the route's path for variable placeholders
+     * surrounded by curly braces and returns an array of the variable
+     * names. If no variables are found, an empty array is returned.
+     *
+     * @return array an array of variable names from the route's path
+     */
+    public function getVariables(): array {
+        preg_match_all('/\{([a-zA-Z0-9_:]+)\??\}/', $this->getPath(), $matchedVariables);
+
+        return $matchedVariables[1] ?? [];
+    }
+
+    public function getVariable(string $name): string {
+        $path = $this->getPath();
+        $uri = request()->getUri();
+        $pathParts = explode('/', trim($path, '/'));
+        $uriParts = explode('/', trim($uri, '/'));
+        $index = 0;
+
+        foreach ($pathParts as $part) {
+            if (preg_match("/{({$name})\\??\\}/", $part)) {
+                return $uriParts[$index];
+            }
+
+            ++$index;
+        }
+    }
+
+    public function resolveVariables(): array {
+        $variables = [];
+        $params = $this->getVariables();
+
+        if (!empty($params)) {
+            foreach ($params as $param) {
+                $variables[$param] = $this->getVariable($param);
+            }
+        }
+
+        return $variables;
     }
 }
 
