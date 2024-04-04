@@ -34,7 +34,7 @@ class Response {
      * @param array $headers the response headers
      * @param string $body the response body
      */
-    public function __construct(int $statusCode = 200, array $headers = [], string $body = '') {
+    public function __construct(string $body = '', int $statusCode = 200, array $headers = []) {
         $this->statusCode = $statusCode;
         $this->headers = $headers;
         $this->body = $body;

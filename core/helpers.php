@@ -109,7 +109,7 @@ function request(): Request {
  *
  * @return Response the response object
  */
-function response(): Response {
-    return new Response();
+function response(mixed $content, int $code = 200, array $headers = []): Response {
+    return new Response($content, $code, $headers);
 }
 
