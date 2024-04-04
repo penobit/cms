@@ -477,6 +477,16 @@ class QueryBuilder {
         return $this;
     }
 
+    public function exists() {
+        $sql = 'SELECT 1 FROM information_schema.tables 
+                WHERE table_schema = DATABASE() AND table_name = ? LIMIT 1';
+
+        $stmt = Connection::getConnection()->prepare($sql);
+        $stmt->execute([$this->table]);
+
+        return $stmt->fetch() !== false;
+    }
+
     public function get() {
         return $this->execute()->fetchAll(\PDO::FETCH_OBJ);
     }
