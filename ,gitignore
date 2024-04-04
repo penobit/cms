@@ -1,0 +1,18 @@
+
+# Composer
+/vendor/
+
+# PHPUnit
+/phpunit.xml
+/build/
+/coverage/
+
+# Logs
+/var/log/
+
+# PHPUnit's files
+.phpunit.result.cache
+
+# Composer
+/composer.phar
+
