@@ -1,1 +1,32 @@
-vendor/
+# Composer
+/vendor/
+
+# PHPUnit
+/phpunit.xml
+/build/
+/coverage/
+
+# Logs
+/var/log/
+
+# PHPUnit's files
+.phpunit.result.cache
+
+# Composer
+/composer.phar
+
+# PHP CS Fixer
+.php_cs.cache
+.php_cs.php
+
+# Code Sniffer
+/phpcs.xml
+
+# PHPStan
+/phpstan.neon
+
+# PHPStan
+/phpstan-baseline.neon
+
+# VS Code
+.vscode
