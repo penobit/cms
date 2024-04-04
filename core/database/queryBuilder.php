@@ -94,7 +94,7 @@ class QueryBuilder {
      *
      * @return $this the QueryBuilder object
      */
-    public function select(array|string $select) {
+    public function select(array|string $select = '*') {
         $this->type = 'select';
         $this->select = $select;
 
@@ -183,6 +183,10 @@ class QueryBuilder {
     public function execute() {
         $statement = $this->prepare();
         $statement->execute();
+
+        if ('select' == $this->type) {
+            $statement = $statement->fetchAll(\PDO::FETCH_OBJ);
+        }
 
         return $statement;
     }
@@ -352,6 +356,24 @@ class QueryBuilder {
     }
 
     /**
+     * Builds the insert query for the insert statement.
+     *
+     * @return string the insert query
+     */
+    public function buildInsertQuery() {
+        if (empty($this->data)) {
+            return '';
+        }
+
+        $columns = implode(', ', array_keys($this->data));
+        $placeholders = implode(', ', array_map(function($key) {
+            return ':'.$key;
+        }, array_keys($this->data)));
+
+        return sprintf(' (%s) VALUES (%s)', $columns, $placeholders);
+    }
+
+    /**
      * Deletes the rows from the table.
      *
      * @return PDOStatement the executed statement
@@ -408,7 +430,7 @@ class QueryBuilder {
      * @return string the SQL query
      */
     public function toSql() {
-        return sprintf('%s%s%s%s', $this->getQueryStart(), $this->buildUpdateQuery(), $this->buildConditionsQuery(), $this->getQueryEnd());
+        return sprintf('%s%s%s%s%s', $this->getQueryStart(), $this->buildUpdateQuery(), $this->buildInsertQuery(), $this->buildConditionsQuery(), $this->getQueryEnd());
     }
 
     /**
@@ -431,5 +453,19 @@ class QueryBuilder {
 
         // Return the resulting array
         return $res;
+    }
+
+    /**
+     * Inserts the specified data into the table.
+     *
+     * @param array $data an associative array of column names and their values
+     *
+     * @return $this the QueryBuilder object
+     */
+    public function insert(array $data) {
+        $this->type = 'insert';
+        $this->data = $data;
+
+        return $this;
     }
 }
