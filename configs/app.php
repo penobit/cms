@@ -12,4 +12,8 @@
 return [
     'name' => 'Penobit',
     'version' => '0.1',
+    'debug' => true,
+    'timezone' => 'Asia/Tehran',
+    'locale' => 'fa',
+    'fallback_locale' => 'en',
 ];

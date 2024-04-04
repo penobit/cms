@@ -132,10 +132,20 @@ class Application {
     }
 
     /**
-     * Register the routes.
-     * Include the routes defined in the core/routes/web.php file.
+     * Set the application timezone.
      */
-    public function registerConfigs() {}
+    public function setTimezone() {
+        $timezone = $this->config->get('app.timezone');
+        date_default_timezone_set($timezone);
+    }
+
+    /**
+     * Set the application locale.
+     */
+    public function setLocale() {
+        $locale = $this->config->get('app.locale');
+        // setlocale(LC_ALL, $locale);
+    }
 
     /**
      * Run the application.
@@ -143,6 +153,8 @@ class Application {
      */
     public function run() {
         $this->registerRoutes();
+        $this->setTimezone();
+        $this->setLocale();
         $this->router->run();
     }
 
