@@ -2,19 +2,20 @@
 
 namespace Penobit\App\Exceptions;
 
-/**
- * Exception thrown when a page is not found.
- */
+use Penobit\App\Http\Response;
+
 class PageNotFound extends \Exception {
-    /**
-     * PageNotFound constructor.
-     *
-     * @param string $message The Exception message to throw. Default: 'Page Not Found'.
-     * @param int $code The Exception code. Default: 404.
-     * @param null|\Exception $previous Previous exception used for the chaining. Default: null.
-     */
     public function __construct(string $message = 'Page Not Found', int $code = 404, \Exception $previous = null) {
         parent::__construct($message, $code, $previous);
     }
-}
 
+    public function render() {
+        // return a 404 Not Found page
+        $response = new Response();
+        $response->setStatusCode(404);
+        $response->header('Content-Type', 'text/html; charset=utf-8');
+        $response->write($response->getView()->render('errors/404'));
+
+        return $response;
+    }
+}
