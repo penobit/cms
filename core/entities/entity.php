@@ -14,7 +14,7 @@ class Entity {
      *
      * @var string
      */
-    protected static $table = '';
+    protected $table = '';
 
     /**
      * Returns a new QueryBuilder instance for the entity's table.
