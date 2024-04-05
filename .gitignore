@@ -18,6 +18,7 @@
 # PHP CS Fixer
 .php_cs.cache
 .php_cs.php
+.php-cs-fixer.cache
 
 # Code Sniffer
 /phpcs.xml
