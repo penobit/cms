@@ -40,6 +40,11 @@ class Application {
     public Request $request;
 
     /**
+     * The locale of the application.
+     */
+    private string $locale;
+
+    /**
      * Initialize the application.
      *
      * @param Router $router the router instance
@@ -66,6 +71,8 @@ class Application {
 
         // Create a new config object
         $this->config = new Config();
+
+        $this->locale = $this->config->get('app.locale') ?: 'en';
     }
 
     /**
@@ -145,10 +152,15 @@ class Application {
 
     /**
      * Set the application locale.
+     *
+     * @param null|string $locale the locale to set, or null to use the default locale
      */
-    public function setLocale() {
-        $locale = $this->config->get('app.locale');
+    public function setLocale(?string $locale = null) {
+        $locale = $locale ?: $this->config->get('app.locale');
+        $this->locale = $locale;
         // setlocale(LC_ALL, $locale);
+
+        return $this;
     }
 
     /**
@@ -264,5 +276,14 @@ class Application {
 
     public function registerExceptionHandler() {
         set_exception_handler([Handler::class, 'handle']);
+    }
+
+    /**
+     * Get the locale of the Application.
+     *
+     * @return string the locale of the Application
+     */
+    public function getLocale(): string {
+        return $this->locale;
     }
 }
