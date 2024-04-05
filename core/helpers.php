@@ -6,6 +6,7 @@ use App\Interfaces\Collection as CollectionInterface;
 use App\Request;
 use App\Response;
 use App\Template;
+use App\UrlGenerator;
 
 /**
  * Penobit CMS Helpers file.
