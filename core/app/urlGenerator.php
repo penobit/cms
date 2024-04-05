@@ -20,7 +20,7 @@ class UrlGenerator {
      *
      * @param null|string $baseUrl The base URL for generating URLs. If null, uses the current request scheme and host.
      */
-    public function __construct(string $baseUrl = null) {
+    public function __construct(?string $baseUrl = null) {
         // Set the base URL to the current request scheme and host if not provided
         $this->baseUrl = $baseUrl ?: $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'];
     }

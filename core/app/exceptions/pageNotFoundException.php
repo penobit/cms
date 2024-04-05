@@ -3,7 +3,7 @@
 namespace App\Exceptions;
 
 class PageNotFoundException extends PenobitException {
-    public function __construct(string $message = 'Page Not Found', int $code = 404, \Exception $previous = null) {
+    public function __construct(string $message = 'Page Not Found', int $code = 404, ?\Exception $previous = null) {
         parent::__construct($message, $code, $previous);
     }
 

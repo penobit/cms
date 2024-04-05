@@ -16,7 +16,8 @@
   },
   "scripts": {
     "csfix": [
-      "php vendor/bin/php-cs-fixer --show-progress=bar --config=.php-cs-fixer.dist.php fix"
+      "php vendor/bin/php-cs-fixer --show-progress=bar --config=.php-cs-fixer.dist.php fix",
+      "git add . && git commit -m \"Applied php-cs-fixer\""
     ],
     "dry-csfix": [
       "php vendor/bin/php-cs-fixer --show-progress=bar --config=.php-cs-fixer.dist.php  --dry-run fix"

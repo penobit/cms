@@ -147,7 +147,7 @@ class Template {
      *
      * @throws \Exception if no template is set
      */
-    public function render(string $template = null, ?array $data = null) {
+    public function render(?string $template = null, ?array $data = null) {
         // Assign data to the template engine
         if (!empty($data)) {
             $this->engine->assign($data);

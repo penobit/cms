@@ -151,7 +151,7 @@ function view(string $template, mixed $data = null) {
  *
  * @return string|UrlGenerator the URL for the given path, or a new UrlGenerator instance
  */
-function url(string $path = null) {
+function url(?string $path = null) {
     $urlGenerator = new UrlGenerator();
 
     if (is_null($path)) {

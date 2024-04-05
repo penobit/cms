@@ -146,7 +146,7 @@ interface Collection {
      *
      * @return Collection the sliced collection
      */
-    public function slice(int $start, int $end = null);
+    public function slice(int $start, ?int $end = null);
 
     /**
      * Reverses the order of the items in the collection.

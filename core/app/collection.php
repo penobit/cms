@@ -105,7 +105,7 @@ class Collection implements CollectionInterface {
      *
      * @return Collection
      */
-    public function slice(int $offset, int $length = null): static {
+    public function slice(int $offset, ?int $length = null): static {
         return new static(array_slice($this->items, $offset, $length));
     }
 
