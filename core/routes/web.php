@@ -1,20 +1,23 @@
 <?php
 
+use App\Collection;
 use App\Entities\User;
 use Core\Routes\Router;
 use Database\QueryBuilder;
 
 Router::get('/', function() {
-    echo 'Home';
+    return new Collection([
+        'page' => 'home',
+        'path' => '/',
+    ]);
 })->name('home');
 
-Router::get('/method', function(QueryBuilder $db) {
-    echo $db->table('users')->where('name', '!=', 'R8')->get();
+Router::get('/user', function(QueryBuilder $db) {
+    $user = $db->table('users')->where('name', '!=', 'R8')->get();
 
-    exit;
+    return response()->json($user);
 })->name('page');
 
 Router::get('/profile/{company}/{user}', function(User $myUser, $company, $user) {
-    echo 'Page with variable';
-    dd($company, $user, $myUser);
+    return response()->json([$company, $user, $myUser]);
 })->name('page-2');

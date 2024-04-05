@@ -1,8 +1,11 @@
 <?php
 
 use App\Application;
+use App\Collection;
+use App\Interfaces\Collection as CollectionInterface;
 use App\Request;
 use App\Response;
+use App\Template;
 
 /**
  * Penobit CMS Helpers file.
@@ -76,17 +79,21 @@ function config($key, $default = null) {
     return app()->config->get($key, $default);
 }
 
+function dump(...$args) {
+    foreach ($args as $value) {
+        echo '<pre>';
+        var_dump($value);
+        echo '</pre>';
+    }
+}
+
 /**
  * Dump the given value with HTML formatting.
  *
  * @param mixed ...$args The values to dump.
  */
 function dd(...$args) {
-    foreach ($args as $value) {
-        echo '<pre>';
-        var_dump($value);
-        echo '</pre>';
-    }
+    dump(...$args);
 
     exit;
 }
@@ -109,7 +116,29 @@ function request(): Request {
  *
  * @return Response the response object
  */
-function response(mixed $content, int $code = 200, array $headers = []): Response {
+function response(mixed $content = '', int $code = 200, array $headers = []): Response {
     return new Response($content, $code, $headers);
 }
 
+/**
+ * Create a new collection from the given items.
+ *
+ * @param array $items the items to add to the collection
+ *
+ * @return CollectionInterface a collection containing the given items
+ */
+function collect(array $items): CollectionInterface {
+    return new Collection($items);
+}
+
+/**
+ * Create a new Template object for the specified template and data.
+ *
+ * @param string $template the path to the template file
+ * @param mixed $data the data to be passed to the template
+ *
+ * @return Template the newly created Template object
+ */
+function view(string $template, mixed $data) {
+    return new Template($template, $data);
+}

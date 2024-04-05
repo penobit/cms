@@ -4,6 +4,7 @@ namespace App;
 
 use App\Entities\Entity;
 use Database\QueryBuilder;
+use Exception;
 
 /**
  * Class ServiceContainer.
@@ -23,11 +24,11 @@ class ServiceContainer {
      *
      * @param mixed $class The class name to resolve
      *
-     * @return object The resolved class
+     * @return mixed The resolved class or false if the class does not exist
      *
      * @throws ReflectionException if the class does not exist or if there is a reflection error
      */
-    public function resolveClass(mixed $class, mixed $args = []): object {
+    public function resolveClass(mixed $class, mixed $args = []): mixed {
         // If the name is bound, return the bound value
         if (isset($this->bindings[$class])) {
             return $this->bindings[$class];
@@ -49,7 +50,11 @@ class ServiceContainer {
             include $classPath;
         }
 
-        return new $class();
+        if (class_exists($class)) {
+            return new $class();
+        }
+
+        return false;
     }
 
     /**
@@ -88,15 +93,19 @@ class ServiceContainer {
                 if (count($args) > 0 && isset($args[$param->name])) {
                     $value = $args[$param->name];
                 } else {
-                    $value = $param->getDefaultValue() ?? null;
+                    $value = $param->isDefaultValueAvailable() ? $param->getDefaultValue() : null;
+                    // try {
+                    // } catch (\ReflectionException) {
+                    //     $value = null;
+                    // }
                 }
 
                 $newInstanceParams[] = $value;
             } else {
                 // check if class is Entity or it inherits Entity
                 $class = $param->getClass()->getName();
-                if (class_exists($class) && is_subclass_of($class, self::class)) {
-                    dd($class);
+                if (class_exists($class) && is_subclass_of($class, Entity::class)) {
+                    dd($class, $param->getName(), $param);
                 }
 
                 $newInstanceParams[] = $this->resolve(
@@ -126,7 +135,7 @@ class ServiceContainer {
      * Register the autoloader for the service container.
      */
     public function register() {
-        // TODO: Register the service container
+        spl_autoload_register(fn ($class) => $this->resolveClass($class));
     }
 
     /**

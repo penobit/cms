@@ -2,8 +2,9 @@
 
 namespace Core\Routes;
 
-use App\Exceptions\PageNotFound;
+use App\Exceptions\PageNotFoundException;
 use App\Request;
+use App\Response;
 
 class Router {
     /**
@@ -140,10 +141,22 @@ class Router {
         $route = $this->matchRoute();
 
         if (!$route) {
-            throw new PageNotFound();
+            throw new PageNotFoundException();
         }
 
-        $route->run();
+        $this->sendResponse($route->run());
+    }
+
+    public function sendResponse(mixed $response) {
+        if (isset($response) && !empty($response)) {
+            if (!$response instanceof Response) {
+                $response = response($response);
+            }
+
+            return $response->send();
+        }
+
+        return null;
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-class PageNotFound extends PenobitException {
+class DatabaseQueryException extends PenobitException {
     public function __construct(string $message = 'Page Not Found', int $code = 404, \Exception $previous = null) {
         parent::__construct($message, $code, $previous);
     }
@@ -11,12 +11,12 @@ class PageNotFound extends PenobitException {
         return sprintf('
             <html>
                 <body>
-                    <h1>Page Not Found</h1>
-                    <p>The requested page was not found.</p>
+                    <h1>Database Query Error</h1>
+                    <p>%s</p>
                     <footer>&copy; %s <a href="https://penobit.com">Penobit</a> </footer>
                 </body>
             </html>
-        ', persianDate()->format('Y'));
+        ', $this->getMessage(), persianDate()->format('Y'));
     }
 
     public function render() {

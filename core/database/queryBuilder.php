@@ -2,6 +2,8 @@
 
 namespace Database;
 
+use App\Exceptions\DatabaseQueryException;
+
 class QueryBuilder {
     /**
      * PDO object used to execute the query.
@@ -183,7 +185,12 @@ class QueryBuilder {
     public function execute() {
         $statement = $this->prepare();
         $this->bindParams($statement);
-        $statement->execute();
+
+        try {
+            $statement->execute();
+        } catch (\PDOException $e) {
+            throw new DatabaseQueryException($e->getMessage());
+        }
 
         if ('select' == $this->type) {
             $statement = $statement->fetchAll(\PDO::FETCH_OBJ);

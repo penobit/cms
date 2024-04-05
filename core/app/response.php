@@ -2,10 +2,25 @@
 
 namespace App;
 
+use App\Interfaces\Collection;
+
 /**
  * Class Response represents an HTTP response.
  */
 class Response {
+    /**
+     * Flags used when converting to JSON.
+     * For example:
+     * JSON_PRETTY_PRINT - Use whitespace in the output for readability.
+     * JSON_UNESCAPED_SLASHES - Don't put backslashes before characters that
+     *   don't need to be escaped in JSON strings.
+     * JSON_UNESCAPED_UNICODE - Encode multibyte Unicode characters literally
+     *   (default is to escape as \uXXXX).
+     *
+     * @var int
+     */
+    public static $jsonResponseFlags = JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
+
     /**
      * The HTTP status code of the response.
      *
@@ -22,10 +37,10 @@ class Response {
 
     /**
      * The response body.
-     *
-     * @var string
      */
-    private $body;
+    private string|Template $body;
+
+    private string $view;
 
     /**
      * Constructs a new Response instance.
@@ -34,10 +49,47 @@ class Response {
      * @param array $headers the response headers
      * @param string $body the response body
      */
-    public function __construct(string $body = '', int $statusCode = 200, array $headers = []) {
+    public function __construct(mixed $body = '', int $statusCode = 200, array $headers = []) {
         $this->statusCode = $statusCode;
         $this->headers = $headers;
-        $this->body = $body;
+        $this->body = $this->parseBody($body);
+    }
+
+    /**
+     * Parses the given body into a JSON string if it's an array,
+     * a Collection, or another Response instance.
+     *
+     * @param mixed $body the response body to parse
+     *
+     * @return string the parsed body as a JSON string
+     */
+    public function parseBody($body) {
+        // Check if the body is an array
+        if (is_array($body)) {
+            // Add application/JSON content type header
+            $this->addHeader('Content-Type', 'application/json');
+
+            // Convert it to a JSON string using the specified flags
+            return json_encode($body, self::$jsonResponseFlags);
+        }
+
+        // Check if the body is a Collection instance
+        if ($body instanceof Collection) {
+            // Add application/JSON content type header
+            $this->addHeader('Content-Type', 'application/json');
+
+            // Convert the Collection to a JSON string
+            return $body->toJson();
+        }
+
+        // Check if the body is another Response instance
+        if ($body instanceof self) {
+            // Return the body of the Response
+            return $body->body;
+        }
+
+        // Convert the body to a string and return it
+        return (string) $body;
     }
 
     /**
@@ -50,6 +102,10 @@ class Response {
             header($name.': '.$value);
         }
 
+        if ($this->body instanceof Template) {
+            return $this->body->render();
+        }
+
         echo $this->body;
     }
 
@@ -57,6 +113,8 @@ class Response {
      * Sets the response body to a JSON representation of the provided data.
      *
      * @param mixed $data the data to be converted to JSON
+     *
+     * @return self for method chaining
      */
     public function json($data) {
         // Set the Content-Type header to indicate JSON response
@@ -64,6 +122,8 @@ class Response {
 
         // Convert the provided data to JSON and set it as the response body
         $this->body = json_encode($data);
+
+        return $this;
     }
 
     /**
@@ -98,12 +158,18 @@ class Response {
     }
 
     /**
-     * Alias for header() method.
+     * Set a header if it doesn't exist already.
      *
      * @link header()
      */
     public function addHeader($name, $value) {
-        return $this->header($name, $value);
+        $header = $this->getHeader($name);
+
+        if (!isset($header)) {
+            $this->header($name, $value);
+        }
+
+        return $this;
     }
 
     /**
@@ -199,6 +265,21 @@ class Response {
     public function setHeader($name, $value) {
         // Adds or updates a header
         return $this->header($name, $value);
+    }
+
+    /**
+     * A description of the entire PHP function.
+     *
+     * @param string $name description
+     * @param mixed $data description
+     *
+     * @return $this
+     */
+    public function view(string $name, $data = []) {
+        $this->view = $name;
+        $this->body = view($name, $data);
+
+        return $this;
     }
 }
 
