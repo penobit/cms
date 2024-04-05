@@ -38,7 +38,13 @@ class Template {
         return $this->render() ?? '';
     }
 
+    /**
+     * Set whether to automatically escape HTML in template output.
+     *
+     * @param bool $escape true to escape HTML, false to not
+     */
     public function autoEscapeHtml(bool $escape) {
+        // Enable or disable automatic HTML escaping in template output.
         $this->engine->setEscapeHtml($escape);
     }
 

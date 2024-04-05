@@ -27,4 +27,5 @@ define('TEMPLATE_CACHE_PATH', CACHE_PATH.'/templates');
 /** @var Application $app */
 $app = require HOME.'/core/app/bootstrap.php';
 
+// Run the application
 $app->run();

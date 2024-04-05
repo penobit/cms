@@ -1,4 +1,9 @@
 <?php
+/**
+ * Penobit CMS Helpers file.
+ * Author: R8
+ * Author URL: https://penobit.com.
+ */
 
 use App\Application;
 use App\Collection;
@@ -8,11 +13,6 @@ use App\Response;
 use App\Template;
 use App\UrlGenerator;
 
-/**
- * Penobit CMS Helpers file.
- * Author: R8
- * Author URL: https://penobit.com.
- */
 /**
  * Get the application instance.
  *

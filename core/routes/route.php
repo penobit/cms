@@ -168,32 +168,66 @@ class Route {
         return $matchedVariables[1] ?? [];
     }
 
+    /**
+     * Get the value of a variable in the URI path.
+     *
+     * This function searches the route's path for a variable placeholder
+     * surrounded by curly braces and returns the corresponding value from the
+     * URI. If no variable is found, an empty string is returned.
+     *
+     * @param string $name the name of the variable
+     *
+     * @return string the value of the variable in the URI
+     */
     public function getVariable(string $name): string {
+        // Split the route path and URI into parts
         $path = $this->getPath();
         $uri = request()->getUri();
         $pathParts = explode('/', trim($path, '/'));
         $uriParts = explode('/', trim($uri, '/'));
+        // Initialize the index to 0
         $index = 0;
 
+        // Loop through the route path parts
         foreach ($pathParts as $part) {
+            // Check if the part contains the variable placeholder
             if (preg_match("/{({$name})\\??\\}/", $part)) {
+                // Return the corresponding value from the URI
                 return $uriParts[$index];
             }
 
+            // Increment the index
             ++$index;
         }
+
+        // If no variable is found, return an empty string
+        return '';
     }
 
+    /**
+     * Resolve the values of all variables in the route's path.
+     *
+     * This function finds all variable placeholders in the route's path, gets
+     * their values from the URI and returns them as an associative array.
+     * If no variables are found, an empty array is returned.
+     *
+     * @return array the values of all variables in the route's path
+     */
     public function resolveVariables(): array {
+        // Initialize an empty array to store the variables
         $variables = [];
+        // Get the names of all variables in the route's path
         $params = $this->getVariables();
 
+        // Check if any variables are found
         if (!empty($params)) {
+            // Loop through each variable and get its value from the URI
             foreach ($params as $param) {
                 $variables[$param] = $this->getVariable($param);
             }
         }
 
+        // Return the associative array of variables and their values
         return $variables;
     }
 }

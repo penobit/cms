@@ -13,8 +13,13 @@ class Connection {
      */
     protected static $connection;
 
-    public function __construct()
-    {
+    /**
+     * Constructor for the Connection class.
+     *
+     * Calls the static `connect` method to establish a database connection.
+     */
+    public function __construct() {
+        // Establish a database connection.
         static::connect();
     }
 

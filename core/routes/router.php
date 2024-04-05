@@ -147,7 +147,17 @@ class Router {
         $this->sendResponse($route->run());
     }
 
-    public function sendResponse(mixed $response) {
+    /**
+     * Sends the response to the client.
+     *
+     * @param mixed $response The response to send. Can be anything, but will be cast to a Response object if it's not already.
+     *
+     * @return null|string the response sent to the client, or null if no response was given
+     */
+    public function sendResponse(mixed $response): ?string {
+        // If a response was provided and it's not already a Response object, cast it to one.
+        // Then send the response and return it.
+        // If no response was provided, return null.
         if (isset($response) && !empty($response)) {
             if (!$response instanceof Response) {
                 $response = response($response);
