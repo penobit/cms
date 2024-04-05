@@ -31,4 +31,6 @@
 # VS Code
 .vscode
 
+# Penobit CMS cache and logs directories
 /core/app/storage/cache/
+/core/app/storage/logs/
