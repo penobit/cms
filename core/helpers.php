@@ -139,9 +139,11 @@ function collect(array $items): CollectionInterface {
  *
  * @return Template the newly created Template object
  */
-function view(string $template, mixed $data) {
+function view(string $template, mixed $data = null) {
     return new Template($template, $data);
-}/**
+}
+
+/**
  * Generate a URL for the given path.
  *
  * @param null|string $path The path for the URL. If null, returns a new UrlGenerator instance.
