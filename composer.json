@@ -13,5 +13,16 @@
     "files": [
       "core/helpers.php"
     ]
+  },
+  "scripts": {
+    "csfix": [
+      "php vendor/bin/php-cs-fixer --show-progress=bar --config=.php-cs-fixer.dist.php fix"
+    ],
+    "dry-csfix": [
+      "php vendor/bin/php-cs-fixer --show-progress=bar --config=.php-cs-fixer.dist.php  --dry-run fix"
+    ]
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.52"
   }
 }
