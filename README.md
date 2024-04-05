@@ -4,20 +4,14 @@
   </a>
 </p>
 
-# penobit
-Penobit is a software development company. Here in penobit we work hard to bring best application development experiences to everyone!
+# Penobit CMS
 
-## Penobit's Primary Services & Used Technologies
-### Website developement
-- HTML5, CSS3, SASS
-- JavaScript, TypeScript, ReactJS
-- PHP, Laravel
-- MySQL
+Penobit CMS is a really fast content management system.
+The Penobit CMS is fully extendable and customizable. Using the plugins, action hooks and filters you can add your custom callbacks to run after, before or during specific action, Filter any data and add new features and functionallity to the CMS.
 
-### Application Development
-- Windows
-- Linux
-- MacOS
-- iOS
-- Android
-- Flutter
+## Installation
+
+- Download the latest release from github.
+- If you dont have SSH or console access to run commands, Open the folder and run `composer install` locally
+- Upload the directory to your hosting/server
+- Open the url and use the installation wizard.
