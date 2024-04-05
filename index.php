@@ -17,6 +17,7 @@ define('DB_PATH', HOME.'/database');
 define('CONFIG_PATH', HOME.'/configs');
 define('APP_PATH', HOME.'/core/app');
 define('STORAGE_PATH', HOME.'/core/app/storage');
+define('LOGS_PATH', HOME.'/core/app/storage/logs');
 define('CMS_TEMPLATE_PATH', STORAGE_PATH.'/templates');
 define('CACHE_PATH', STORAGE_PATH.'/cache');
 define('TEMPLATE_CACHE_PATH', CACHE_PATH.'/templates');

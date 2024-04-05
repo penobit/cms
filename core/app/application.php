@@ -151,14 +151,49 @@ class Application {
     }
 
     /**
+     * Check if the caches directory exists, and if not, create it.
+     */
+    public function checkRequiredDirectories() {
+        // Check if the caches directory exists, and if not, create it.
+        if (!is_dir(CACHE_PATH)) {
+            // Create the caches directory with read, write, execute permissions for all.
+            mkdir(CACHE_PATH, 0777, true);
+        }
+
+        // Check if the logs directory exists, and if not, create it.
+        if (!is_dir(LOGS_PATH)) {
+            // Create the logs directory with read, write, execute permissions for all.
+            mkdir(LOGS_PATH, 0777, true);
+        }
+
+        // Check if the template cache directory exists, and if not, create it.
+        if (!is_dir(TEMPLATE_CACHE_PATH)) {
+            // Create the template cache directory with read, write, execute permissions for all.
+            mkdir(TEMPLATE_CACHE_PATH, 0777, true);
+        }
+    }
+
+    /**
      * Run the application.
      * Execute the router run method to handle the request.
      */
     public function run() {
+        // Register exception handler.
         $this->registerExceptionHandler();
+
+        // Check required directories and create them if they don't exist.
+        $this->checkRequiredDirectories();
+
+        // Register routes.
         $this->registerRoutes();
+
+        // Set the application timezone.
         $this->setTimezone();
+
+        // Set the application locale.
         $this->setLocale();
+
+        // Run the router to handle the request.
         $this->router->run();
     }
 
