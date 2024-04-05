@@ -10,6 +10,26 @@
     RewriteRule ^vendor/.*$ - [L,R=404]
     RewriteRule ^configs/.*$ - [L,R=404]
     
+    # Show 404 if any md file requested from root except index.php
+    # RewriteCond %{REQUEST_FILENAME} \.
+    # RewriteRule ^ - [L,R=404]
+    
+    # Show 404 if LICENSE file requested
+    RewriteCond %{REQUEST_FILENAME} LICENSE
+    RewriteRule ^ - [L,R=404]
+    
+    # Show 404 if any env file requested
+    RewriteCond %{REQUEST_FILENAME} \.env$
+    RewriteRule ^ - [L,R=404]
+    
+    # Show 404 if any md file requested
+    RewriteCond %{REQUEST_FILENAME} \.md$
+    RewriteRule ^ - [L,R=404]
+    
+    # Redirect all access to files named composer.*
+    RewriteCond %{REQUEST_FILENAME} composer\.+
+    RewriteRule ^ - [L,R=404]
+    
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
