@@ -161,3 +161,28 @@ function url(string $path = null) {
     return $urlGenerator->url($path);
 }
 
+/**
+ * Get the path to the theme.
+ *
+ * @param null|string $path the path to append to the theme path
+ * @param null|string $theme The theme to use. If null, uses the current theme.
+ *
+ * @return string the path to the theme
+ */
+function getThemePath(?string $path = null, ?string $theme = null) {
+    return app()->getThemePath($path, $theme);
+}
+
+/**
+ * Include the theme's header file.
+ */
+function getThemeHeader() {
+    include app()->getThemePath('header.php');
+}
+
+/**
+ * Include the theme's footer file.
+ */
+function getThemeFooter() {
+    include app()->getThemePath('footer.php');
+}

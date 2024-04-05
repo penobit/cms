@@ -15,6 +15,8 @@ define('PENOBIT', true);
 define('HOME', dirname(__FILE__));
 define('DB_PATH', HOME.'/database');
 define('CONFIG_PATH', HOME.'/configs');
+define('CONTENT_PATH', HOME.'/content');
+define('THEMES_PATH', CONTENT_PATH.'/themes');
 define('APP_PATH', HOME.'/core/app');
 define('STORAGE_PATH', HOME.'/core/app/storage');
 define('LOGS_PATH', HOME.'/core/app/storage/logs');

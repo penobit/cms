@@ -49,6 +49,7 @@ class Template {
         $this->engine
             ->setTemplateDir(CMS_TEMPLATE_PATH)
             ->addTemplateDir(HOME.'/content/themes/')
+            ->addTemplateDir(app()->getThemePath())
             ->setCompileDir(TEMPLATE_CACHE_PATH)
             ->setConfigDir(CMS_TEMPLATE_PATH.'/config')
             ->setCacheDir(TEMPLATE_CACHE_PATH)

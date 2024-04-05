@@ -40,6 +40,11 @@ class Application {
     public Request $request;
 
     /**
+     * The name of the theme to use for rendering the application's output.
+     */
+    private string $theme = 'default';
+
+    /**
      * The locale of the application.
      */
     private string $locale;
@@ -276,6 +281,60 @@ class Application {
 
     public function registerExceptionHandler() {
         set_exception_handler([Handler::class, 'handle']);
+    }
+
+    /**
+     * Get the template instance.
+     *
+     * @return Template the template instance
+     */
+    public function getTheme() {
+        // Return the template instance
+        return $this->theme;
+    }
+
+    /**
+     * Set the template instance.
+     *
+     * @return $this the current Application instance
+     */
+    public function setTheme(string $theme) {
+        // Set the template instance
+        $this->theme = $theme;
+
+        // Return the current Application instance
+        return $this;
+    }
+
+    /**
+     * Get the path to the theme.
+     *
+     * @param null|string $path the path to append to the theme path
+     * @param null|string $theme The theme to use. If null, uses the current theme.
+     *
+     * @return string the path to the theme
+     */
+    public function getThemePath(?string $path = null, ?string $theme = null) {
+        if (empty($theme)) {
+            $theme = $this->theme;
+        }
+
+        return sprintf('%s/%s%s', THEMES_PATH, $theme, $path ? "/{$path}" : '');
+    }
+
+    /**
+     * Get the URL of the theme.
+     *
+     * @param null|string $theme The theme to use. If null, uses the current theme.
+     *
+     * @return string the URL of the theme
+     */
+    public function getThemeUrl(?string $theme = null) {
+        if (empty($theme)) {
+            $theme = $this->theme;
+        }
+
+        return url(sprintf('content/themes/%s', $theme));
     }
 
     /**
