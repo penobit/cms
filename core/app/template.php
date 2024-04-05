@@ -29,6 +29,15 @@ class Template {
         $this->init();
     }
 
+    /**
+     * Magic method to return the rendered template.
+     *
+     * @return string the rendered template
+     */
+    public function __toString() {
+        return $this->render() ?? '';
+    }
+
     public function autoEscapeHtml(bool $escape) {
         $this->engine->setEscapeHtml($escape);
     }
