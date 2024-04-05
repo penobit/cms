@@ -22,6 +22,10 @@
     RewriteCond %{REQUEST_FILENAME} \.env$
     RewriteRule ^ - [L,R=404]
     
+    # Show 404 if any env file requested
+    RewriteCond %{REQUEST_FILENAME} \.gitignore$
+    RewriteRule ^ - [L,R=404]
+    
     # Show 404 if any md file requested
     RewriteCond %{REQUEST_FILENAME} \.md$
     RewriteRule ^ - [L,R=404]
