@@ -30,3 +30,5 @@
 
 # VS Code
 .vscode
+
+/core/app/storage/cache/

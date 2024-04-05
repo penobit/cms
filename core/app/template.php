@@ -40,7 +40,7 @@ class Template {
         $this->engine
             ->setTemplateDir(CMS_TEMPLATE_PATH)
             ->addTemplateDir(HOME.'/content/themes/')
-            ->setCompileDir(CMS_TEMPLATE_PATH.'/compiled')
+            ->setCompileDir(TEMPLATE_CACHE_PATH)
             ->setConfigDir(CMS_TEMPLATE_PATH.'/config')
             ->setCacheDir(TEMPLATE_CACHE_PATH)
             ->setEscapeHtml(true)
