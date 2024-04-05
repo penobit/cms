@@ -6,7 +6,7 @@
  * This file is used for configuring the application.
  * It returns an array of configuration options.
  *
- * @return array
+ * @return array the app configuration options
  */
 
 return [

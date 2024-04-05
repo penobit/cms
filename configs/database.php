@@ -1,9 +1,12 @@
 <?php
+
 /**
  * Configuration file for database settings.
  *
  * This file contains settings for connecting to a MySQL database.
  * The configuration is based on the PDO library and it is used by the framework.
+ *
+ * @return array the database configuration
  */
 
 return [
