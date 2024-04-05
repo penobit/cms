@@ -1,15 +1,11 @@
 <?php
 
-use App\Collection;
 use App\Entities\User;
 use Core\Routes\Router;
 use Database\QueryBuilder;
 
 Router::get('/', function() {
-    return new Collection([
-        'page' => 'home',
-        'path' => '/',
-    ]);
+    include app()->getThemePath('index.php');
 })->name('home');
 
 Router::get('/user', function(QueryBuilder $db) {
