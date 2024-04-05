@@ -19,7 +19,7 @@ class Response {
      *
      * @var int
      */
-    public static $jsonResponseFlags = JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
+    public static $jsonResponseFlags = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
 
     /**
      * The HTTP status code of the response.
