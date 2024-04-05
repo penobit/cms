@@ -2,30 +2,39 @@
 
 namespace App\Exceptions;
 
+/**
+ * Class DatabaseQueryException
+ * 
+ * Exception thrown when a database query error occurs.
+ */
 class DatabaseQueryException extends PenobitException {
+    /**
+     * Constructor for the DatabaseQueryException class.
+     * 
+     * @param string $message The error message.
+     * @param int $code The error code.
+     * @param \Exception|null $previous The previous exception.
+     */
     public function __construct(string $message = 'Page Not Found', int $code = 404, \Exception $previous = null) {
         parent::__construct($message, $code, $previous);
     }
 
-    public function getHtml() {
-        return sprintf('
-            <html>
-                <body>
-                    <h1>Database Query Error</h1>
-                    <p>%s</p>
-                    <footer>&copy; %s <a href="https://penobit.com">Penobit</a> </footer>
-                </body>
-            </html>
-        ', $this->getMessage(), persianDate()->format('Y'));
-    }
-
+    /**
+     * Render the exception as a HTTP response.
+     * 
+     * @return \App\Response The HTTP response.
+     */
     public function render() {
-        // return a 404 Not Found page
+        // Create a response with a 500 status code, using the 'error.tpl' view,
+        // passing the error message from the parent exception and a title.
         return response()
-            ->setStatusCode(404)
-            ->header('Content-Type', 'text/html; charset=utf-8')
-            ->content($this->getHtml())
+            ->setStatusCode(500)
+            ->view('error.tpl', [
+                'title' => 'Database Query Error',
+                'message' => parent::getMessage(),
+            ])
             ->send()
         ;
     }
 }
+
