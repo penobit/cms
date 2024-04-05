@@ -141,4 +141,20 @@ function collect(array $items): CollectionInterface {
  */
 function view(string $template, mixed $data) {
     return new Template($template, $data);
+}/**
+ * Generate a URL for the given path.
+ *
+ * @param null|string $path The path for the URL. If null, returns a new UrlGenerator instance.
+ *
+ * @return string|UrlGenerator the URL for the given path, or a new UrlGenerator instance
+ */
+function url(string $path = null) {
+    $urlGenerator = new UrlGenerator();
+
+    if (is_null($path)) {
+        return $urlGenerator;
+    }
+
+    return $urlGenerator->url($path);
 }
+
