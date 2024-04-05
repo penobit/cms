@@ -77,7 +77,12 @@ class Application {
         // Create a new config object
         $this->config = new Config();
 
+        // Set app locale from config app file
         $this->locale = $this->config->get('app.locale') ?: 'en';
+
+        if (!$this->config->get('app.debug')) {
+            error_reporting(0);
+        }
     }
 
     /**
