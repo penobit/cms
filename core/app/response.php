@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Interfaces\Collection;
+use App\Utils\HtmlMinifier;
 
 /**
  * Class Response represents an HTTP response.
@@ -102,11 +103,17 @@ class Response {
             header($name.': '.$value);
         }
 
-        if ($this->body instanceof Template) {
-            return $this->body->render();
-        }
+        ob_start();
+        echo (string) $this->body;
+        $res = ob_get_contents();
+        ob_clean();
 
-        echo $this->body;
+        if (strpos($this->headers['Content-Type'] ?? '', 'html') !== false) {
+            $minifier = new HtmlMinifier();
+            echo $minifier->minify($res);
+        } else {
+            echo $res;
+        }
     }
 
     /**
@@ -278,6 +285,7 @@ class Response {
     public function view(string $name, $data = []) {
         $this->view = $name;
         $this->body = view($name, $data);
+        $this->setHeader('Content-Type', 'text/html');
 
         return $this;
     }
