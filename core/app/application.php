@@ -55,15 +55,16 @@ class Application {
         // Create a new serviceContainer for class autoloading
         $this->serviceContainer = new ServiceContainer();
 
-        // Create a new list of registered actions
+        // Create a actions object
         $this->actions = new Actions();
 
-        // Create a new list of registered filters
+        // Create a filters object
         $this->filters = new Filters();
 
         // Create a new request object
         $this->request = new Request();
 
+        // Create a new config object
         $this->config = new Config();
     }
 
