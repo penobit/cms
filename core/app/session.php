@@ -2,6 +2,12 @@
 
 namespace App;
 
+/**
+ * Class Session.
+ *
+ * This class represents a session, which is a way to store data
+ * for a user across multiple requests.
+ */
 class Session {
     public function __construct() {}
 
