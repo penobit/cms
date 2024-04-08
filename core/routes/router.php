@@ -30,6 +30,36 @@ class Router {
     }
 
     /**
+     * Retrieves the list of registered routes.
+     *
+     * @return array<Route> the list of registered routes
+     */
+    public static function getRoutes() {
+        return static::$routes;
+    }
+
+    /**
+     * Retrieves a specific route by its name.
+     *
+     * @param string $name the name of the route to retrieve
+     *
+     * @return null|Route the route with the given name, or null if not found
+     */
+    public static function getRouteByName(string $name) {
+        // Loop through each route in the list of registered routes
+        foreach (static::$routes as $route) {
+            // Check if the name of the current route matches the given name
+            if ($route->getName() == $name) {
+                // If a match is found, return the route
+                return $route;
+            }
+        }
+
+        // If no match was found, return null
+        return null;
+    }
+
+    /**
      * Registers a new route for the given HTTP method and path.
      *
      * @param string $method the HTTP method to register the route for

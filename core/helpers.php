@@ -198,3 +198,50 @@ function getThemeHeader() {
 function getThemeFooter() {
     include app()->getThemePath('footer.php');
 }
+
+
+/**
+ * Generate the URL for a given route.
+ *
+ * @param string $name The name of the route
+ * @param mixed ...$args The parameters for the route
+ *
+ * @return string The generated URL
+ */
+function route($name, ...$args) {
+    $url = '';
+    $route = Router::getRouteByName($name, ...$args);
+
+    if (!$route) {
+        return false;
+    }
+
+    $path = $route->getPath();
+
+    if (isset($args) && !empty($args)) {
+        if (func_num_args() === 2 && is_array($args[0])) {
+            $params = $args[0];
+
+            // replace params in the path
+            $path = preg_replace_callback('/\{(\w+)\??\}/', function($matches) use ($params) {
+                if (isset($params[$matches[1]])) {
+                    return $params[$matches[1]];
+                }
+
+                return '';
+            }, $path);
+        } else {
+            // replace params in the path by their order
+            foreach ($args as $value) {
+                $path = preg_replace('/\{(\w+)\??\}/', $value, $path, 1);
+            }
+        }
+    }
+
+    $path = str_replace('//', '/', $path);
+    $path = trim($path, '/');
+
+    dd($path);
+
+    return url($url);
+}

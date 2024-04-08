@@ -50,6 +50,43 @@ class Route {
     }
 
     /**
+     * Get the name of the route.
+     */
+    public function getName(): ?string {
+        return $this->name;
+    }
+
+    /**
+     * Get the prefix of the route.
+     */
+    public function getPrefix(): ?string {
+        return $this->prefix;
+    }
+
+    /**
+     * Get the middlewares of the route.
+     */
+    public function getMiddlewares(): array {
+        return $this->middlewares;
+    }
+
+    /**
+     * Get the HTTP method of the route.
+     */
+    public function getMethod(): string {
+        return $this->method;
+    }
+
+    /**
+     * Get the callback of the route.
+     *
+     * @return array|callable|string
+     */
+    public function getCallback() {
+        return $this->callback;
+    }
+
+    /**
      * Set the name of the route.
      *
      * @param string $name name of the route
