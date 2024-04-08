@@ -82,4 +82,22 @@ class Redirect {
 
         return $this;
     }
+
+    /**
+     * Set the redirect to a permanent (301) status code.
+     */
+    public function permanent(): self {
+        $this->statusCode = 301;
+
+        return $this;
+    }
+
+    /**
+     * Sets the redirect to a temporary (302) status code.
+     */
+    public function temporary(): self {
+        $this->statusCode = 302;
+
+        return $this;
+    }
 }

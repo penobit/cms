@@ -206,10 +206,14 @@ function getThemeFooter() {
  *
  * @param null|string $path The path to redirect to
  * @param null|bool $permanent Whether the redirect is permanent or not
- *
- * @return Redirect
  */
-function redirect(?string $path = null, ?bool $permanent = false) {
+function redirect(?string $path = null, ?bool $permanent = false): ?Redirect {
+    if (func_num_args() === 1) {
+        Redirect::to($path);
+
+        return null;
+    }
+
     return new Redirect($path, $permanent);
 }
 
