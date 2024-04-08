@@ -28,7 +28,7 @@ class ServiceContainer {
      *
      * @throws ReflectionException if the class does not exist or if there is a reflection error
      */
-    public function resolveClass(mixed $class, mixed $args = []): mixed {
+    public function resolveClass(mixed $class): mixed {
         // If the name is bound, return the bound value
         if (isset($this->bindings[$class])) {
             return $this->bindings[$class];
