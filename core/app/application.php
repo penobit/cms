@@ -126,7 +126,7 @@ class Application {
      *
      * @return Application the application instance
      */
-    public function addEvent(string $event, callable $callback, int $priority = 10) {
+    public function listen(string $event, callable $callback, int $priority = 10) {
         if (!isset($this->events[$event])) {
             $this->events[$event] = [];
         }

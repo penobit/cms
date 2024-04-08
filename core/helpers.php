@@ -31,7 +31,7 @@ function app(): Application {
  * @param callable $callback the callback function to add
  * @param int $priority the priority of the callback (default 0)
  */
-function addEvent(string $event, callable $callback, int $priority = 0) {
+function listen(string $event, callable $callback, int $priority = 0) {
     app()->events->add($event, $callback, $priority);
 }
 
