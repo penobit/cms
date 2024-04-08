@@ -9,7 +9,7 @@ use Database\QueryBuilder;
 
 /**
  * The Application class represents the main entry point of the application.
- * It holds the application instance, the request object, the list of registered actions and filters, and the router instance.
+ * It holds the application instance, the request object, the list of registered events and filters, and the router instance.
  */
 class Application {
     /**
@@ -25,9 +25,9 @@ class Application {
     public Config $config;
 
     /**
-     * The list of registered actions.
+     * The list of registered events.
      */
-    public Actions $actions;
+    public Events $events;
 
     /**
      * The list of registered filters.
@@ -68,8 +68,8 @@ class Application {
         // Create a new serviceContainer for class autoloading
         $this->serviceContainer = new ServiceContainer();
 
-        // Create a actions object
-        $this->actions = new Actions();
+        // Create a events object
+        $this->events = new Events();
 
         // Create a filters object
         $this->filters = new Filters();
@@ -107,31 +107,31 @@ class Application {
     }
 
     /**
-     * Get the actions.
+     * Get the events.
      *
-     * @param string $action the action name
+     * @param string $event the event name
      *
-     * @return array the list of registered actions for the given action name
+     * @return array the list of registered events for the given event name
      */
-    public function getActions(string $action): array {
-        return $this->actions->get($action);
+    public function getEvents(string $event): array {
+        return $this->events->get($event);
     }
 
     /**
-     * Add a new action.
+     * Add a new event.
      *
-     * @param string $action the action name
-     * @param callable $callback the callback function to be executed when the action is triggered
-     * @param int $priority the priority of the action (higher priority actions are executed first)
+     * @param string $event the event name
+     * @param callable $callback the callback function to be executed when the event is triggered
+     * @param int $priority the priority of the event (higher priority events are executed first)
      *
      * @return Application the application instance
      */
-    public function addAction(string $action, callable $callback, int $priority = 10) {
-        if (!isset($this->actions[$action])) {
-            $this->actions[$action] = [];
+    public function addEvent(string $event, callable $callback, int $priority = 10) {
+        if (!isset($this->events[$event])) {
+            $this->events[$event] = [];
         }
 
-        $this->actions[$action][] = ['callback' => $callback, 'priority' => $priority];
+        $this->events[$event][] = ['callback' => $callback, 'priority' => $priority];
 
         return $this;
     }

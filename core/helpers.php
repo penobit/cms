@@ -25,14 +25,14 @@ function app(): Application {
 }
 
 /**
- * Add an action to the application.
+ * Add an event to the application.
  *
- * @param string $action the name of the action
+ * @param string $event the name of the event
  * @param callable $callback the callback function to add
  * @param int $priority the priority of the callback (default 0)
  */
-function addAction(string $action, callable $callback, int $priority = 0) {
-    app()->actions->add($action, $callback, $priority);
+function addEvent(string $event, callable $callback, int $priority = 0) {
+    app()->events->add($event, $callback, $priority);
 }
 
 /**
@@ -47,15 +47,15 @@ function addFilter(string $filter, callable $callback, int $priority = 0) {
 }
 
 /**
- * Run an action in the application.
+ * Run an event in the application.
  *
- * @param string $action the name of the action
+ * @param string $event the name of the event
  * @param mixed ...$args The arguments to pass to the callback.
  *
- * @return mixed the result of running the action
+ * @return mixed the result of running the event
  */
-function runAction($action, ...$args) {
-    return app()->actions->run($action, ...$args);
+function runEvent($event, ...$args) {
+    return app()->events->run($event, ...$args);
 }
 
 /**
