@@ -350,4 +350,13 @@ class Application {
     public function getLocale(): string {
         return $this->locale;
     }
+
+    /**
+     * Get the name of the theme.
+     *
+     * @return string the name of the theme
+     */
+    public function getThemeName(): string {
+        return $this->theme;
+    }
 }

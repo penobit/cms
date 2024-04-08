@@ -162,6 +162,18 @@ function url(?string $path = null) {
 }
 
 /**
+ * Get the name of the theme.
+ *
+ * This function retrieves the name of the current theme using the Application object.
+ *
+ * @return string the name of the theme
+ */
+function getThemeName() {
+    // Get the name of the current theme using the Application object.
+    return app()->getThemeName();
+}
+
+/**
  * Get the path to the theme.
  *
  * @param null|string $path the path to append to the theme path
