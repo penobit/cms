@@ -221,7 +221,7 @@ function redirect(?string $path = null, ?bool $permanent = false) {
  *
  * @return string The generated URL
  */
-function route($name, ...$args) {
+function route($name, ...$args): string {
     $route = Router::getRouteByName($name, ...$args);
 
     if (!$route) {
@@ -254,4 +254,17 @@ function route($name, ...$args) {
     $path = trim($path, '/');
 
     return url($path);
+}
+
+/**
+ * A function that redirects the user back to the previous page if available, or to the home page if not.
+ */
+function back(): Redirect {
+    $ref = $_SERVER['HTTP_REFERER'];
+
+    if (isset($ref) && !empty($ref)) {
+        return redirect($ref);
+    }
+
+    return redirect('/');
 }
