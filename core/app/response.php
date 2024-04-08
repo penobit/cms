@@ -39,7 +39,7 @@ class Response {
     /**
      * The response body.
      */
-    private string|Template $body;
+    private null|string|Template $body;
 
     private string $view;
 
@@ -81,6 +81,13 @@ class Response {
 
             // Convert the Collection to a JSON string
             return $body->toJson();
+        }
+
+        if ($body instanceof Redirect) {
+            $this->setStatusCode($body->getStatusCode());
+            $this->setHeader('Location', $body->getPath());
+
+            return null;
         }
 
         // Check if the body is another Response instance

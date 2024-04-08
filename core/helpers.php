@@ -8,10 +8,12 @@
 use App\Application;
 use App\Collection;
 use App\Interfaces\Collection as CollectionInterface;
+use App\Redirect;
 use App\Request;
 use App\Response;
 use App\Template;
 use App\UrlGenerator;
+use Core\Routes\Router;
 
 /**
  * Get the application instance.
@@ -199,6 +201,17 @@ function getThemeFooter() {
     include app()->getThemePath('footer.php');
 }
 
+/**
+ * Redirects to a new path.
+ *
+ * @param null|string $path The path to redirect to
+ * @param null|bool $permanent Whether the redirect is permanent or not
+ *
+ * @return Redirect
+ */
+function redirect(?string $path = null, ?bool $permanent = false) {
+    return new Redirect($path, $permanent);
+}
 
 /**
  * Generate the URL for a given route.
@@ -209,7 +222,6 @@ function getThemeFooter() {
  * @return string The generated URL
  */
 function route($name, ...$args) {
-    $url = '';
     $route = Router::getRouteByName($name, ...$args);
 
     if (!$route) {
@@ -241,7 +253,5 @@ function route($name, ...$args) {
     $path = str_replace('//', '/', $path);
     $path = trim($path, '/');
 
-    dd($path);
-
-    return url($url);
+    return url($path);
 }

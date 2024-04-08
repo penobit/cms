@@ -5,6 +5,8 @@ use Core\Routes\Router;
 use Database\QueryBuilder;
 
 Router::get('/', function() {
+    return redirect()->route('page-2', ['company' => 'test', 'user' => 'R8']);
+
     include app()->getThemePath('index.php');
 })->name('home');
 
