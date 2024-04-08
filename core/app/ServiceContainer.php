@@ -45,7 +45,7 @@ class ServiceContainer {
         }
 
         // If the class file exists, include it and instantiate it
-        $classPath = sprintf('%s.php', strtolower($class));
+        $classPath = sprintf('%s.php', str_replace('\\', '/', $class));
         if (file_exists($classPath)) {
             include $classPath;
         }
