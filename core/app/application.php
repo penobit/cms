@@ -62,6 +62,9 @@ class Application {
         // Set the application instance
         self::$instance = $this;
 
+        // Start the session if not already started
+        Session::start();
+
         // Create a new serviceContainer for class autoloading
         $this->serviceContainer = new ServiceContainer();
 
