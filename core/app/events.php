@@ -72,12 +72,12 @@ class Events {
     }
 
     /**
-     * Run callback of a specific event.
+     * Dispatch a specific event.
      *
      * @param string $event the name of the event to run
      * @param mixed ...$args The arguments to pass to the callbacks.
      */
-    public function run(string $event, ...$args): void {
+    public function dispatch(string $event, ...$args): void {
         $callbacks = $this->get($event);
 
         usort($callbacks, function($a, $b) {

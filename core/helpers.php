@@ -54,8 +54,8 @@ function addFilter(string $filter, callable $callback, int $priority = 0) {
  *
  * @return mixed the result of running the event
  */
-function runEvent($event, ...$args) {
-    return app()->events->run($event, ...$args);
+function dispatch($event, ...$args) {
+    return app()->events->dispatch($event, ...$args);
 }
 
 /**
